@@ -20,14 +20,36 @@ app.use(
   })
 );
 
-// app.use(cors({ origin: "http://localhost:3000", credentials: true }));
-const corsOptions = {
-  origin: "https://taskwiseapp.netlify.app", // Replace with your Netlify domain
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-  optionsSuccessStatus: 204,
-};
-app.use(cors(corsOptions));
+// // app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+// const corsOptions = {
+//   origin: "https://taskwiseapp.netlify.app", // Replace with your Netlify domain
+//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//   credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+//   optionsSuccessStatus: 204,
+// };
+// app.use(cors(corsOptions));
+
+// Middleware to set CORS options based on request origin
+app.use((req, res, next) => {
+  const localhostCorsOptions = {
+    origin: "http://localhost:3000",
+    credentials: true,
+  };
+
+  const prodCorsOptions = {
+    origin: "https://taskwiseapp.netlify.app", // Replace with your Netlify domain
+    credentials: true,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    optionsSuccessStatus: 204,
+  };
+
+  // Determine the CORS options to use based on the request's origin
+  const corsOptions =
+    req.hostname === "localhost" ? localhostCorsOptions : prodCorsOptions;
+
+  // Apply CORS options
+  cors(corsOptions)(req, res, next);
+});
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
