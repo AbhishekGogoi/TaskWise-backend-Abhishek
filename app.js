@@ -121,7 +121,7 @@ app.listen(PORT, () => {
   console.log(`TaskWise Server is running on port ${PORT}`);
 });
 
-// Periodic request to keep the service alive (e.g., every 5 minutes)
-setInterval(() => {
-  http.get(`https://taskwise-backend-abhishek.onrender.com/keep-alive`);
-}, 5 * 60 * 1000); // Every 5 minutes
+// // Periodic request to keep the service alive (e.g., every 5 minutes)
+// setInterval(() => {
+//   http.get(`https://taskwise-backend-abhishek.onrender.com/keep-alive`);
+// }, 5 * 60 * 1000); // Every 5 minutes
