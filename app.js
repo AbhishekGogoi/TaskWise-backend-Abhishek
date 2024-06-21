@@ -8,7 +8,6 @@ const cron = require("node-cron");
 const uploadController = require("./controllers/upload.controller");
 const db = require("./models");
 const { updateImageUrls } = require("./services/updateImageUrlsJob");
-const http = require("http");
 
 const app = express();
 
@@ -117,10 +116,6 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-app.get("/keep-alive", (req, res) => {
-  res.status(200).send("Server is alive");
-});
-
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`TaskWise Server is running on port ${PORT}`);
@@ -128,11 +123,5 @@ app.listen(PORT, () => {
 
 // Periodic request to keep the service alive (e.g., every 5 minutes)
 setInterval(() => {
-  http
-    .get("https://taskwise-backend-abhishek.onrender.com/keep-alive", (res) => {
-      console.log(`Keep-alive response status code: ${res.statusCode}`);
-    })
-    .on("error", (err) => {
-      console.error("Error with keep-alive request:", err.message);
-    });
+  http.get(`https://taskwise-backend-abhishek.onrender.com/keep-alive`);
 }, 5 * 60 * 1000); // Every 5 minutes
