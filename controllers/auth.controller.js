@@ -170,15 +170,7 @@ module.exports = {
    */
 
   loginUser: async (req, res) => {
-    const GUEST_EMAIL = process.env.GUEST_EMAIL;
-    const GUEST_PASSWORD = process.env.GUEST_PASSWORD;
-
-    let { email, password } = req.body;
-
-    if (email === "guest" && password === "guest") {
-      email = GUEST_EMAIL;
-      password = GUEST_PASSWORD;
-    }
+    const { email, password } = req.body;
 
     try {
       const user = await UserModel.findOne({ email });
